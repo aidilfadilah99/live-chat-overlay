@@ -17,7 +17,6 @@
 ---
 
 [Fitur Unggulan](#-fitur-unggulan) • 
-[Preview Tampilan](#-preview-tampilan) • 
 [Panduan Cepat](#-panduan-cepat) • 
 [Mode Gamer (Click-Through)](#-mode-gamer--click-through) • 
 [Instalasi Developer](#-instalasi--pengembangan) • 
@@ -55,16 +54,6 @@ Sebagai streamer atau content creator dengan setup monitor terbatas, berganti je
 
 <br />
 
----
-
-## 📸 Preview Tampilan
-
-<div align="center">
-  <img src="docs/Screenshot.png" alt="Live Chat Overlay Interface" width="600" style="border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
-  <p><i>Antarmuka minimalis, elegan, dan informatif saat sesi TikTok LIVE terhubung.</i></p>
-</div>
-
-<br />
 
 ---
 
@@ -143,7 +132,6 @@ live-chat-overlay/
 │   ├── index.html      # Struktur visual aplikasi overlay
 │   ├── styles.css      # Style utama (tema gelap modern & efek glassmorphism)
 │   └── controls.css    # Style kontrol slider, tombol resize, & menu setting
-├── docs/               # Dokumentasi & aset gambar
 ├── Jalankan.cmd        # Script launcher cepat untuk Windows
 ├── package.json        # Manifest proyek & konfigurasi electron-builder
 └── README.md           # Dokumentasi resmi proyek
