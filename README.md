@@ -4,7 +4,7 @@
 ### *Next-Gen Floating Multi-Stream Companion (TikTok & YouTube) for Streamers & Gamers*
 
 [![Version](https://img.shields.io/badge/version-3.0-fe2c55?style=for-the-badge)](https://github.com/aidilfadilah99/live-chat-overlay)
-[![Author](https://img.shields.io/badge/Author-Aidil%20Fadilah-00B4D8?style=for-the-badge&logo=github&logoColor=white)](https://github.com/aidilfadilah99)
+[![Author](https://img.shields.io/badge/Author-ASTOR-00B4D8?style=for-the-badge&logo=github&logoColor=white)](https://github.com/aidilfadilah99)
 [![GitHub stars](https://img.shields.io/github/stars/aidilfadilah99/live-chat-overlay?style=for-the-badge&color=ffb703)](https://github.com/aidilfadilah99/live-chat-overlay/stargazers)
 [![Platform](https://img.shields.io/badge/Platform-Windows%2010%20%7C%2011-0078D4?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/aidilfadilah99/live-chat-overlay)
 [![Tech Stack](https://img.shields.io/badge/Built%20With-Electron%20%E2%80%A2%20Node.js-2b2d42?style=for-the-badge&logo=electron&logoColor=9FEAF9)](https://electronjs.org/)
@@ -167,7 +167,7 @@ Aplikasi ini menggunakan modul pihak ketiga [`tiktok-live-connector`](https://ww
 
 Dibuat & dikembangkan oleh:
 
-**Aidil Fadilah**  
+**ASTOR**  
 - 🌐 GitHub: [@aidilfadilah99](https://github.com/aidilfadilah99)
 - 💼 Project Repository: [live-chat-overlay](https://github.com/aidilfadilah99/live-chat-overlay)
 
@@ -176,5 +176,5 @@ Dibuat & dikembangkan oleh:
 <div align="center">
   <b>Suka dengan project ini? Jangan lupa tinggalkan ⭐ Star di repositori GitHub!</b>
   <br /><br />
-  <sub>Copyright © 2026 Aidil Fadilah. Crafted for creators & streamers.</sub>
+  <sub>Copyright © 2026 ASTOR. Crafted for creators & streamers.</sub>
 </div>

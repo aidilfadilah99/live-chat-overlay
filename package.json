@@ -2,7 +2,7 @@
   "name": "live-chat-overlay",
   "version": "3.0.0",
   "private": true,
-  "author": "aidil fadilah",
+  "author": "ASTOR",
   "type": "module",
   "main": "src/main.js",
   "scripts": {
@@ -19,7 +19,7 @@
     "electron-builder": "^26.15.3"
   },
   "build": {
-    "appId": "id.aidilfadilah.livechatoverlay",
+    "appId": "id.astor.livechatoverlay",
     "productName": "Live Chat Overlay",
     "artifactName": "${productName} 3.0.${ext}",
     "files": [
