@@ -1,7 +1,7 @@
 <div align="center">
 
 # ⚡ LIVE CHAT OVERLAY
-### *Next-Gen Floating TikTok Live Companion for Streamers & Gamers*
+### *Next-Gen Floating Multi-Stream Companion (TikTok & YouTube) for Streamers & Gamers*
 
 [![Author](https://img.shields.io/badge/Author-Aidil%20Fadilah-00B4D8?style=for-the-badge&logo=github&logoColor=white)](https://github.com/aidilfadilah99)
 [![GitHub stars](https://img.shields.io/github/stars/aidilfadilah99/live-chat-overlay?style=for-the-badge&color=ffb703)](https://github.com/aidilfadilah99/live-chat-overlay/stargazers)
@@ -9,15 +9,15 @@
 [![Tech Stack](https://img.shields.io/badge/Built%20With-Electron%20%E2%80%A2%20Node.js-2b2d42?style=for-the-badge&logo=electron&logoColor=9FEAF9)](https://electronjs.org/)
 
 <p align="center">
-  <b>Baca chat, pantau gift, dan sapa penonton TikTok LIVE langsung di atas layar game tanpa perlu monitor kedua!</b>
+  <b>Baca chat, pantau gift & Super Chat, dan sapa penonton TikTok LIVE serta YouTube LIVE langsung di atas layar game tanpa monitor kedua!</b>
   <br />
-  Ringan • Transparan • Anti-Ribet • Tanpa Login Akun
+  Multi-Platform • Ringan • Transparan • Anti-Ribet • Tanpa Login Akun
 </p>
 
 ---
 
 [Fitur Unggulan](#-fitur-unggulan) • 
-[Panduan Cepat](#-panduan-cepat) • 
+[Panduan Multi-Stream](#-panduan-multi-stream) • 
 [Mode Gamer (Click-Through)](#-mode-gamer--click-through) • 
 [Instalasi Developer](#-instalasi--pengembangan) • 
 [Author](#-author--kontak)
@@ -30,11 +30,12 @@
 
 ## 💡 Mengapa Menggunakan Live Chat Overlay?
 
-Sebagai streamer atau content creator dengan setup monitor terbatas, berganti jendela (Alt+Tab) hanya untuk membaca chat TikTok sering kali mengganggu jalannya gameplay atau siaran.
+Sebagai streamer atau content creator dengan setup monitor terbatas yang sering melakukan **multi-stream (restream) ke TikTok dan YouTube sekaligus**, berganti jendela (Alt+Tab) untuk membaca chat di dua platform berbeda sangat memecah fokus gameplay atau siaran.
 
-**Live Chat Overlay** dirancang khusus untuk memecahkan masalah tersebut:
-- 🚀 **Zero Login**: Tidak perlu input password, token, atau email TikTok. Cukup masukkan username host publik.
-- 🎮 **Gamer Friendly**: Dilengkapi fitur *Click-Through (Tembus Klik)* sehingga cursor mouse tidak akan terhalang saat membidik atau mengklik game.
+**Live Chat Overlay** hadir sebagai solusi all-in-one:
+- ⚡ **Dual & Multi-Stream**: Hubungkan TikTok saja, YouTube saja, atau **keduanya sekaligus** dalam satu feed obrolan terpadu dengan penanda platform (*TT* / *YT*).
+- 🚀 **Zero Login**: Tidak perlu login akun, password, atau API key. Cukup masukkan username TikTok dan/atau link/handle YouTube publik.
+- 🎮 **Gamer Friendly**: Dilengkapi fitur *Click-Through (Tembus Klik)* sehingga cursor mouse tidak akan terhalang saat bermain game.
 - 🪶 **Hemat Resource**: Menggunakan filter memori pintar yang membatasi histori chat agar konsumsi RAM dan CPU tetap minimal sepanjang sesi live stream.
 
 <br />
@@ -45,24 +46,27 @@ Sebagai streamer atau content creator dengan setup monitor terbatas, berganti je
 
 | Kategori | Fitur & Deskripsi |
 |---|---|
-| 💬 **Live Interaction** | Komentar masuk secara *real-time* lengkap dengan avatar dan nama panggilan (@username). |
-| 📊 **Real-time Analytics** | Ticker statistik live langsung: Jumlah penonton aktif saat ini, total likes, dan durasi live berjalan. |
-| 👑 **Top Viewers & Joins** | Menampilkan 3 penonton teratas (top gifter/viewer) serta pop-up halus saat penonton baru bergabung. |
-| 🎁 **Activity Feed** | Notifikasi interaksi khusus: Kiriman Gift & jumlah combonya, notifikasi Share, dan viewer yang baru Follow. |
-| 🎨 **UI Kustomisasi Bebas** | Atur ukuran font (teks), transparansi latar (opacity), dan pilihan instan ukuran jendela (Kecil, Sedang, Besar). |
+| 🔀 **Multi-Platform Support** | Fleksibel memilih: Hubungkan **TikTok saja**, **YouTube saja**, atau **Keduanya secara bersamaan**. |
+| 💬 **Unified Live Chat** | Komentar dari TikTok dan YouTube digabung rapi dalam satu feed dengan badge penanda platform. |
+| 💰 **Gifts & Super Chat** | Notifikasi gift TikTok (beserta jumlah combo) dan Super Chat YouTube (lengkap dengan nominal donasi). |
+| 📊 **Real-time Analytics** | Ticker statistik live: Penonton aktif TikTok, total likes, dan timer durasi siaran gabungan. |
+| 👑 **Top Viewers & Joins** | Menampilkan 3 penonton teratas TikTok serta pop-up halus saat penonton baru bergabung. |
+| 🎨 **UI Kustomisasi Bebas** | Atur ukuran teks (font size), transparansi latar (opacity), dan pilihan instan ukuran jendela (Kecil, Sedang, Besar). |
 | 📌 **Always-On-Top Layer** | Jendela mengambang di atas semua aplikasi aktif, game *borderless*, maupun software OBS Studio. |
 
 <br />
 
-
 ---
 
-## 🚀 Panduan Cepat
+## 🚀 Panduan Multi-Stream
 
-1. Pastikan akun TikTok yang ingin dipantau **sedang berlangsung (LIVE) dan berstatus publik**.
-2. Masukkan username TikTok (contoh: `aidilfadilah` atau link live `https://www.tiktok.com/@aidilfadilah/live`).
-3. Klik tombol **Hubungkan**.
-4. Posisikan jendela di sudut layar yang nyaman bagi Anda, lalu aktifkan mode transparansi dan klik-tembus sesuai preferensi.
+1. Pilih tab platform yang diinginkan di bagian atas overlay:
+   - **🎵 TikTok**: Masukkan username (contoh: `@username` atau link live).
+   - **▶️ YouTube**: Masukkan link video (`youtube.com/watch?v=...`), handle channel (`@channel`), atau ID siaran.
+   - **⚡ Keduanya**: Masukkan akun TikTok dan YouTube sekaligus untuk memantau dua platform dalam satu layar.
+2. Klik tombol **Hubungkan** pada platform yang dipilih.
+3. Atur posisi overlay di sudut layar, aktifkan transparansi dan mode klik-tembus jika sedang bermain game.
+4. Klik **Putuskan Semua** di footer kapan pun Anda selesai siaran.
 
 <br />
 
@@ -126,12 +130,12 @@ File biner portabel siap pakai akan otomatis terbuat di dalam direktori `dist/`.
 ```text
 live-chat-overlay/
 ├── src/
-│   ├── main.js         # Process utama Electron, window manager, & TikTok connector
+│   ├── main.js         # Process utama Electron, window manager, koneksi TikTok & YouTube
 │   ├── preload.cjs     # Context bridge aman untuk komunikasi IPC (renderer <-> node)
-│   ├── renderer.js     # Logika antarmuka UI, render chat feed, animasi, & event listener
-│   ├── index.html      # Struktur visual aplikasi overlay
-│   ├── styles.css      # Style utama (tema gelap modern & efek glassmorphism)
-│   └── controls.css    # Style kontrol slider, tombol resize, & menu setting
+│   ├── renderer.js     # Logika UI, tab switching, chat feed formatter, & event listener
+│   ├── index.html      # Struktur visual aplikasi overlay (tabs TikTok & YouTube)
+│   ├── styles.css      # Style tema gelap modern, glassmorphism, & badge multi-platform
+│   └── controls.css    # Style slider kustomisasi, toggle passthrough, & watermark
 ├── Jalankan.cmd        # Script launcher cepat untuk Windows
 ├── package.json        # Manifest proyek & konfigurasi electron-builder
 └── README.md           # Dokumentasi resmi proyek
@@ -143,11 +147,11 @@ live-chat-overlay/
 
 ## ⚖️ Penafian (Disclaimer)
 
-Aplikasi ini menggunakan modul pihak ketiga [`tiktok-live-connector`](https://www.npmjs.com/package/tiktok-live-connector) untuk membaca stream data Webcast publik.
+Aplikasi ini menggunakan modul pihak ketiga [`tiktok-live-connector`](https://www.npmjs.com/package/tiktok-live-connector) dan [`youtube-chat`](https://www.npmjs.com/package/youtube-chat) untuk membaca stream data siaran publik.
 
-- Proyek ini **tidak terafiliasi, dikelola, atau didukung secara resmi oleh TikTok atau ByteDance Inc.**
-- Aplikasi ini murni bersifat *read-only* untuk siaran langsung publik dan **tidak pernah mengumpulkan, menyimpan, atau meminta kredensial/password akun pengguna.**
-- Segala perubahan protokol atau kebijakan API dari platform TikTok dapat memengaruhi kestabilan koneksi.
+- Proyek ini **tidak terafiliasi, dikelola, atau didukung secara resmi oleh TikTok, ByteDance, YouTube, maupun Google LLC.**
+- Aplikasi ini murni bersifat *read-only* untuk siaran langsung publik dan **tidak pernah mengumpulkan, menyimpan, atau meminta password akun pengguna.**
+- Segala perubahan protokol atau kebijakan API dari platform terkait dapat memengaruhi kestabilan koneksi.
 
 <br />
 

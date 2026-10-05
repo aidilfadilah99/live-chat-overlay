@@ -2,24 +2,51 @@ import { app, BrowserWindow, ipcMain, screen, globalShortcut } from 'electron';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { TikTokLiveConnection, WebcastEvent, ControlEvent } from 'tiktok-live-connector';
+import { LiveChat } from 'youtube-chat';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 let win;
-let live;
-let intentionalDisconnect = false;
+let liveTiktok;
+let liveYoutube;
+let intentionalDisconnectTiktok = false;
+let intentionalDisconnectYoutube = false;
 let clickThrough = false;
 
 const send = (channel, payload) => {
   if (win && !win.isDestroyed()) win.webContents.send(channel, payload);
 };
 
-function normalizeUser(user = {}) {
+function normalizeTiktokUser(user = {}) {
   const image = user.profilePicture || user.avatarThumb || user.avatarMedium || user.avatarLarge;
   return {
+    platform: 'tiktok',
     username: user.uniqueId || user.displayId || user.display_id || 'penonton',
     nickname: user.nickname || user.uniqueId || user.displayId || 'Penonton',
     avatar: image?.urlList?.[0] || image?.url?.[0] || ''
   };
+}
+
+function normalizeYoutubeUser(author = {}) {
+  return {
+    platform: 'youtube',
+    username: author.name || 'penonton',
+    nickname: author.name || 'Penonton',
+    avatar: author.thumbnail?.url || ''
+  };
+}
+
+function parseYoutubeInput(input) {
+  const str = String(input || '').trim();
+  if (!str) return null;
+  const vMatch = str.match(/(?:v=|\/live\/|\/v\/|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+  if (vMatch) return { liveId: vMatch[1] };
+  const cMatch = str.match(/\/channel\/(UC[a-zA-Z0-9_-]{22})/);
+  if (cMatch) return { channelId: cMatch[1] };
+  const hMatch = str.match(/(?:youtube\.com\/)?@([a-zA-Z0-9_.-]+)/);
+  if (hMatch) return { handle: '@' + hMatch[1] };
+  if (/^UC[a-zA-Z0-9_-]{22}$/.test(str)) return { channelId: str };
+  if (/^[a-zA-Z0-9_-]{11}$/.test(str)) return { liveId: str };
+  return { handle: str.startsWith('@') ? str : '@' + str };
 }
 
 function createWindow() {
@@ -61,36 +88,48 @@ function setWindowSize(preset) {
   );
 }
 
-async function disconnect() {
-  intentionalDisconnect = true;
-  const current = live;
-  live = undefined;
+async function disconnectTiktok() {
+  intentionalDisconnectTiktok = true;
+  const current = liveTiktok;
+  liveTiktok = undefined;
   if (current) try { await current.disconnect(); } catch {}
-  send('live:status', { state: 'idle', text: 'Terputus' });
+  send('live:status', { platform: 'tiktok', state: 'idle', text: 'TikTok terputus' });
 }
 
-function bindEvents(connection) {
+function disconnectYoutube() {
+  intentionalDisconnectYoutube = true;
+  const current = liveYoutube;
+  liveYoutube = undefined;
+  if (current) try { current.stop(); } catch {}
+  send('live:status', { platform: 'youtube', state: 'idle', text: 'YouTube terputus' });
+}
+
+async function disconnectAll() {
+  await Promise.allSettled([disconnectTiktok(), Promise.resolve(disconnectYoutube())]);
+}
+
+function bindTiktokEvents(connection) {
   connection.on(WebcastEvent.CHAT, data => send('live:chat', {
-    ...normalizeUser(data.user), comment: data.comment || data.content || ''
+    ...normalizeTiktokUser(data.user), comment: data.comment || data.content || ''
   }));
 
   connection.on(WebcastEvent.MEMBER, data => {
-    send('live:member', normalizeUser(data.user));
+    send('live:member', normalizeTiktokUser(data.user));
   });
 
   connection.on(WebcastEvent.ROOM_USER, data => {
-    // ROOM_USER is TikTok's periodic snapshot. `memberCount` is deliberately
-    // not used because it can represent accumulated joins rather than current viewers.
     const currentViewers = data.viewerCount ?? data.total;
     const ranks = data.ranksList ?? data.ranks ?? data.topViewers ?? [];
     send('live:stats', {
+      platform: 'tiktok',
       viewers: Number(currentViewers ?? 0),
-      topViewers: ranks.slice(0, 3).map(item => normalizeUser(item.user || item)),
+      topViewers: ranks.slice(0, 3).map(item => normalizeTiktokUser(item.user || item)),
       updatedAt: Date.now()
     });
   });
 
   connection.on(WebcastEvent.LIKE, data => send('live:stats', {
+    platform: 'tiktok',
     likes: Number(data.totalLikeCount || data.total || 0)
   }));
 
@@ -98,7 +137,8 @@ function bindEvents(connection) {
     const giftType = data.giftDetails?.giftType ?? data.gift?.type;
     if (giftType === 1 && !data.repeatEnd) return;
     send('live:activity', {
-      type: 'gift', ...normalizeUser(data.user),
+      platform: 'tiktok',
+      type: 'gift', ...normalizeTiktokUser(data.user),
       giftName: data.giftDetails?.giftName || data.gift?.name || 'Gift',
       amount: Number(data.repeatCount || data.comboCount || 1),
       image: data.giftDetails?.giftPictureUrl || data.gift?.image?.urlList?.[0] || data.gift?.icon?.urlList?.[0] || ''
@@ -106,42 +146,140 @@ function bindEvents(connection) {
   });
 
   connection.on(WebcastEvent.SHARE, data => send('live:activity', {
-    type: 'share', ...normalizeUser(data.user)
+    platform: 'tiktok', type: 'share', ...normalizeTiktokUser(data.user)
   }));
+
   connection.on(WebcastEvent.FOLLOW, data => send('live:activity', {
-    type: 'follow', ...normalizeUser(data.user)
+    platform: 'tiktok', type: 'follow', ...normalizeTiktokUser(data.user)
   }));
+
   connection.on(WebcastEvent.STREAM_END, () => send('live:status', {
-    state: 'ended', text: 'LIVE telah selesai'
+    platform: 'tiktok', state: 'ended', text: 'TikTok LIVE telah selesai'
   }));
+
   connection.on(ControlEvent.DISCONNECTED, () => {
-    if (!intentionalDisconnect) send('live:status', { state: 'error', text: 'Koneksi LIVE terputus' });
+    if (!intentionalDisconnectTiktok) send('live:status', { platform: 'tiktok', state: 'error', text: 'Koneksi TikTok terputus' });
   });
-  connection.on('error', error => send('live:debug', String(error?.message || error)));
+
+  connection.on('error', error => send('live:debug', { platform: 'tiktok', message: String(error?.message || error) }));
 }
 
-ipcMain.handle('live:connect', async (_event, input) => {
+function bindYoutubeEvents(liveChat) {
+  liveChat.on('start', liveId => {
+    send('live:status', {
+      platform: 'youtube',
+      state: 'connected',
+      text: `YouTube LIVE terhubung (${liveId})`,
+      connectedAt: Date.now(),
+      liveId
+    });
+  });
+
+  liveChat.on('chat', item => {
+    const messageText = (item.message || []).map(m => m.text || m.emojiText || '').join('');
+    if (item.superchat) {
+      send('live:activity', {
+        platform: 'youtube',
+        type: 'superchat',
+        ...normalizeYoutubeUser(item.author),
+        giftName: 'Super Chat',
+        amount: item.superchat.amount,
+        color: item.superchat.color || '#ffb703',
+        image: item.superchat.sticker?.url || ''
+      });
+    }
+
+    send('live:chat', {
+      ...normalizeYoutubeUser(item.author),
+      comment: messageText,
+      isSuperChat: Boolean(item.superchat),
+      superChatAmount: item.superchat?.amount || ''
+    });
+  });
+
+  liveChat.on('end', reason => {
+    send('live:status', {
+      platform: 'youtube',
+      state: 'ended',
+      text: `YouTube LIVE berakhir ${reason ? '(' + reason + ')' : ''}`
+    });
+  });
+
+  liveChat.on('error', error => {
+    if (!intentionalDisconnectYoutube) {
+      send('live:status', {
+        platform: 'youtube',
+        state: 'error',
+        text: String(error?.message || error || 'Koneksi YouTube terputus')
+      });
+    }
+  });
+}
+
+// IPC Handlers: TikTok
+ipcMain.handle('tiktok:connect', async (_event, input) => {
   const username = String(input || '').trim().replace(/^https?:\/\/[^/]+\/@/, '').replace(/\/live.*$/, '').replace(/^@/, '');
   if (!username) return { ok: false, error: 'Masukkan username TikTok.' };
-  await disconnect();
-  intentionalDisconnect = false;
-  send('live:status', { state: 'connecting', text: `Menghubungkan @${username}…` });
+  await disconnectTiktok();
+  intentionalDisconnectTiktok = false;
+  send('live:status', { platform: 'tiktok', state: 'connecting', text: `Menghubungkan TikTok @${username}…` });
   const connection = new TikTokLiveConnection(username, { processInitialData: true, fetchRoomInfoOnConnect: true });
-  live = connection;
-  bindEvents(connection);
+  liveTiktok = connection;
+  bindTiktokEvents(connection);
   try {
     const state = await connection.connect();
-    send('live:status', { state: 'connected', text: `LIVE @${username}`, connectedAt: Date.now() });
+    send('live:status', { platform: 'tiktok', state: 'connected', text: `TikTok: @${username}`, connectedAt: Date.now() });
     return { ok: true, roomId: state.roomId };
   } catch (error) {
-    if (live === connection) live = undefined;
-    const message = error?.message || 'Tidak dapat terhubung.';
-    send('live:status', { state: 'error', text: message });
+    if (liveTiktok === connection) liveTiktok = undefined;
+    const message = error?.message || 'Tidak dapat terhubung ke TikTok.';
+    send('live:status', { platform: 'tiktok', state: 'error', text: message });
     return { ok: false, error: message };
   }
 });
 
-ipcMain.handle('live:disconnect', disconnect);
+ipcMain.handle('tiktok:disconnect', disconnectTiktok);
+
+// IPC Handlers: YouTube
+ipcMain.handle('youtube:connect', async (_event, input) => {
+  const parsed = parseYoutubeInput(input);
+  if (!parsed) return { ok: false, error: 'Masukkan URL video, ID live, atau handle YouTube.' };
+  disconnectYoutube();
+  intentionalDisconnectYoutube = false;
+  const label = parsed.liveId || parsed.channelId || parsed.handle || input;
+  send('live:status', { platform: 'youtube', state: 'connecting', text: `Menghubungkan YouTube ${label}…` });
+
+  try {
+    const liveChat = new LiveChat(parsed);
+    liveYoutube = liveChat;
+    bindYoutubeEvents(liveChat);
+    const ok = await liveChat.start();
+    if (!ok) {
+      if (liveYoutube === liveChat) liveYoutube = undefined;
+      const message = 'Tidak dapat memulai chat YouTube. Pastikan stream sedang LIVE.';
+      send('live:status', { platform: 'youtube', state: 'error', text: message });
+      return { ok: false, error: message };
+    }
+    return { ok: true, liveId: liveChat.liveId };
+  } catch (error) {
+    if (liveYoutube) liveYoutube = undefined;
+    const message = error?.message || 'Gagal terhubung ke live stream YouTube.';
+    send('live:status', { platform: 'youtube', state: 'error', text: message });
+    return { ok: false, error: message };
+  }
+});
+
+ipcMain.handle('youtube:disconnect', disconnectYoutube);
+
+// Unified & Window Controls
+ipcMain.handle('live:connect', async (event, param) => {
+  if (typeof param === 'object' && param.platform === 'youtube') {
+    return ipcMain.handlers['youtube:connect'](event, param.input);
+  }
+  return ipcMain.handlers['tiktok:connect'](event, typeof param === 'object' ? param.input : param);
+});
+
+ipcMain.handle('live:disconnect', disconnectAll);
 ipcMain.on('window:close', () => win?.close());
 ipcMain.on('window:minimize', () => win?.minimize());
 ipcMain.on('window:click-through', (_e, enabled) => setClickThrough(enabled));
@@ -153,4 +291,4 @@ app.whenReady().then(() => {
   globalShortcut.register('CommandOrControl+Shift+X', () => setClickThrough(!clickThrough));
 });
 app.on('will-quit', () => globalShortcut.unregisterAll());
-app.on('window-all-closed', () => { disconnect(); if (process.platform !== 'darwin') app.quit(); });
+app.on('window-all-closed', () => { disconnectAll(); if (process.platform !== 'darwin') app.quit(); });
