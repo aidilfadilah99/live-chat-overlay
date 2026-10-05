@@ -1,172 +1,182 @@
 <div align="center">
 
-# 🎬 TikTok Live Overlay
+# ⚡ LIVE CHAT OVERLAY
+### *Next-Gen Floating TikTok Live Companion for Streamers & Gamers*
 
-**Overlay komentar TikTok LIVE yang ringan, transparan, dan selalu tampil di atas aplikasi lain.**
+[![Author](https://img.shields.io/badge/Author-Aidil%20Fadilah-00B4D8?style=for-the-badge&logo=github&logoColor=white)](https://github.com/aidilfadilah99)
+[![GitHub stars](https://img.shields.io/github/stars/aidilfadilah99/live-chat-overlay?style=for-the-badge&color=ffb703)](https://github.com/aidilfadilah99/live-chat-overlay/stargazers)
+[![Platform](https://img.shields.io/badge/Platform-Windows%2010%20%7C%2011-0078D4?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/aidilfadilah99/live-chat-overlay)
+[![Tech Stack](https://img.shields.io/badge/Built%20With-Electron%20%E2%80%A2%20Node.js-2b2d42?style=for-the-badge&logo=electron&logoColor=9FEAF9)](https://electronjs.org/)
 
-![Version](https://img.shields.io/badge/version-2.1.1-fe2c55?style=for-the-badge)
-![Platform](https://img.shields.io/badge/platform-Windows-0078D4?style=for-the-badge&logo=windows)
-![Electron](https://img.shields.io/badge/Electron-44-47848F?style=for-the-badge&logo=electron)
-
-Dibuat oleh **Aidil Fadilah**
-
-</div>
+<p align="center">
+  <b>Baca chat, pantau gift, dan sapa penonton TikTok LIVE langsung di atas layar game tanpa perlu monitor kedua!</b>
+  <br />
+  Ringan • Transparan • Anti-Ribet • Tanpa Login Akun
+</p>
 
 ---
 
-## Tentang aplikasi
+[Fitur Unggulan](#-fitur-unggulan) • 
+[Preview Tampilan](#-preview-tampilan) • 
+[Panduan Cepat](#-panduan-cepat) • 
+[Mode Gamer (Click-Through)](#-mode-gamer--click-through) • 
+[Instalasi Developer](#-instalasi--pengembangan) • 
+[Author](#-author--kontak)
 
-TikTok Live Overlay membantu streamer membaca aktivitas TikTok LIVE tanpa harus terus membuka jendela TikTok. Overlay dapat ditempatkan di atas game, OBS, browser, atau aplikasi lain dan ukurannya bisa disesuaikan.
+---
 
-Aplikasi membaca aktivitas dari LIVE publik secara real-time dan tidak memerlukan password akun TikTok.
+</div>
 
-## ✨ Fitur
+<br />
 
-- 💬 Menampilkan komentar LIVE secara real-time
-- 👁️ Menampilkan jumlah penonton aktif saat ini
-- 🏆 Menampilkan top viewers dari snapshot TikTok
-- ❤️ Menampilkan total like
-- 🎁 Notifikasi gift dan jumlah combo
-- 🔗 Notifikasi saat LIVE dibagikan
-- ➕ Notifikasi saat seseorang mengikuti host
-- 👋 Ticker user yang baru bergabung tanpa memenuhi daftar chat
-- 📌 Mode selalu di atas aplikasi lain
-- 🪟 Overlay transparan dengan opasitas yang bisa diatur
-- 🖱️ Mode klik-tembus untuk penggunaan di atas game
-- 📐 Ukuran jendela kecil, sedang, besar, dan resize manual
-- 🔤 Ukuran teks dapat disesuaikan
+## 💡 Mengapa Menggunakan Live Chat Overlay?
 
-## 📸 Tampilan
+Sebagai streamer atau content creator dengan setup monitor terbatas, berganti jendela (Alt+Tab) hanya untuk membaca chat TikTok sering kali mengganggu jalannya gameplay atau siaran.
 
-![TikTok Live Overlay](docs/Screenshot.png)
+**Live Chat Overlay** dirancang khusus untuk memecahkan masalah tersebut:
+- 🚀 **Zero Login**: Tidak perlu input password, token, atau email TikTok. Cukup masukkan username host publik.
+- 🎮 **Gamer Friendly**: Dilengkapi fitur *Click-Through (Tembus Klik)* sehingga cursor mouse tidak akan terhalang saat membidik atau mengklik game.
+- 🪶 **Hemat Resource**: Menggunakan filter memori pintar yang membatasi histori chat agar konsumsi RAM dan CPU tetap minimal sepanjang sesi live stream.
 
-## 🚀 Cara paling mudah
+<br />
 
-1. Buka folder `dist`.
-2. Jalankan **TikTok Live Overlay 2.1.1.exe**.
-3. Masukkan username host, contohnya `username`, atau tempel URL TikTok LIVE.
-4. Klik **Hubungkan**.
-5. Pastikan akun tujuan sedang LIVE dan siarannya bersifat publik.
+---
 
-EXE bersifat portable sehingga tidak membutuhkan proses instalasi.
+## 🎯 Fitur Unggulan
 
-## 🎮 Kontrol overlay
-
-| Kontrol | Fungsi |
+| Kategori | Fitur & Deskripsi |
 |---|---|
-| Tarik title bar | Memindahkan overlay |
-| Tarik tepi jendela | Mengubah ukuran secara manual |
-| Preset Kecil / Sedang / Besar | Mengubah ukuran dengan cepat |
-| Selalu di atas | Menjaga overlay di atas aplikasi lain |
-| Klik tembus | Membuat klik diteruskan ke aplikasi di belakangnya |
-| `Ctrl` + `Shift` + `X` | Mengaktifkan atau mematikan klik-tembus dari aplikasi mana pun |
+| 💬 **Live Interaction** | Komentar masuk secara *real-time* lengkap dengan avatar dan nama panggilan (@username). |
+| 📊 **Real-time Analytics** | Ticker statistik live langsung: Jumlah penonton aktif saat ini, total likes, dan durasi live berjalan. |
+| 👑 **Top Viewers & Joins** | Menampilkan 3 penonton teratas (top gifter/viewer) serta pop-up halus saat penonton baru bergabung. |
+| 🎁 **Activity Feed** | Notifikasi interaksi khusus: Kiriman Gift & jumlah combonya, notifikasi Share, dan viewer yang baru Follow. |
+| 🎨 **UI Kustomisasi Bebas** | Atur ukuran font (teks), transparansi latar (opacity), dan pilihan instan ukuran jendela (Kecil, Sedang, Besar). |
+| 📌 **Always-On-Top Layer** | Jendela mengambang di atas semua aplikasi aktif, game *borderless*, maupun software OBS Studio. |
 
-> **Penting:** Jika overlay tidak bisa diklik karena mode klik-tembus aktif, tekan **Ctrl + Shift + X** untuk mengembalikannya.
+<br />
 
-## 🛠️ Menjalankan dari source code
+---
 
-### Persyaratan
+## 📸 Preview Tampilan
 
-- Windows 10 atau Windows 11
-- [Node.js](https://nodejs.org/) versi 20 atau lebih baru
-- npm
+<div align="center">
+  <img src="docs/Screenshot.png" alt="Live Chat Overlay Interface" width="600" style="border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
+  <p><i>Antarmuka minimalis, elegan, dan informatif saat sesi TikTok LIVE terhubung.</i></p>
+</div>
 
-### Instalasi
+<br />
 
-```powershell
+---
+
+## 🚀 Panduan Cepat
+
+1. Pastikan akun TikTok yang ingin dipantau **sedang berlangsung (LIVE) dan berstatus publik**.
+2. Masukkan username TikTok (contoh: `aidilfadilah` atau link live `https://www.tiktok.com/@aidilfadilah/live`).
+3. Klik tombol **Hubungkan**.
+4. Posisikan jendela di sudut layar yang nyaman bagi Anda, lalu aktifkan mode transparansi dan klik-tembus sesuai preferensi.
+
+<br />
+
+---
+
+## 🎮 Mode Gamer / Click-Through
+
+Fitur **Klik-Tembus (*Click-Through*)** memungkinkan Anda tetap menembakkan senjata di game atau mengklik desktop di area tepat di mana jendela chat berada tanpa sengaja menyeleksi jendela overlay.
+
+> [!IMPORTANT]
+> **Shortcut Darurat Pengendali Klik:**
+> 
+> Tekan kombinasi tombol:
+> ### <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>X</kbd>
+> 
+> Pintasan ini berfungsi secara global di Windows untuk mengaktifkan atau mematikan mode klik-tembus kapan pun Anda ingin mengatur ulang posisi atau ukuran jendela.
+
+<br />
+
+---
+
+## 🛠️ Instalasi & Pengembangan
+
+Bagi developer yang ingin menjalankan atau memodifikasi kode sumber secara lokal:
+
+### Prasyarat
+- Sistem Operasi: **Windows 10 / 11**
+- **Node.js**: Versi 20 ke atas
+- Package Manager: **npm**
+
+### Langkah Instalasi
+```bash
+# 1. Clone repository ini
 git clone https://github.com/aidilfadilah99/live-chat-overlay.git
+
+# 2. Masuk ke direktori proyek
 cd live-chat-overlay
+
+# 3. Install semua dependencies
 npm install
+
+# 4. Jalankan aplikasi dalam mode dev
 npm start
 ```
 
-Di Windows, kamu juga bisa menjalankan `Jalankan.cmd`. Script tersebut akan memasang dependensi secara otomatis jika folder `node_modules` belum tersedia.
+> **Tips Windows:** Anda juga dapat langsung mengklik dua kali file `Jalankan.cmd` yang sudah disediakan di folder utama!
 
-## 📦 Membuat EXE portable
-
-```powershell
-npm install
+### 📦 Melakukan Build ke Portable Executable (.exe)
+Untuk membuat file executable mandiri tanpa perlu terminal:
+```bash
 npm run pack
 ```
+File biner portabel siap pakai akan otomatis terbuat di dalam direktori `dist/`.
 
-Hasil build tersedia di:
+<br />
+
+---
+
+## 📁 Struktur Kode
 
 ```text
-dist/TikTok Live Overlay 2.1.1.exe
-```
-
-## 📁 Struktur proyek
-
-```text
-tiktok-live-overlay/
+live-chat-overlay/
 ├── src/
-│   ├── main.js         # Window Electron dan koneksi TikTok LIVE
-│   ├── preload.cjs     # Jembatan IPC yang aman
-│   ├── renderer.js     # Logika antarmuka overlay
-│   ├── index.html      # Struktur tampilan
-│   ├── styles.css      # Tampilan utama
-│   └── controls.css    # Pengaturan dan kontrol ukuran
-├── Jalankan.cmd        # Menjalankan aplikasi di Windows
-├── package.json
-└── README.md
+│   ├── main.js         # Process utama Electron, window manager, & TikTok connector
+│   ├── preload.cjs     # Context bridge aman untuk komunikasi IPC (renderer <-> node)
+│   ├── renderer.js     # Logika antarmuka UI, render chat feed, animasi, & event listener
+│   ├── index.html      # Struktur visual aplikasi overlay
+│   ├── styles.css      # Style utama (tema gelap modern & efek glassmorphism)
+│   └── controls.css    # Style kontrol slider, tombol resize, & menu setting
+├── docs/               # Dokumentasi & aset gambar
+├── Jalankan.cmd        # Script launcher cepat untuk Windows
+├── package.json        # Manifest proyek & konfigurasi electron-builder
+└── README.md           # Dokumentasi resmi proyek
 ```
 
-## ❓ Pemecahan masalah
+<br />
 
-### Komentar tidak muncul
+---
 
-- Pastikan username sudah benar.
-- Pastikan akun sedang LIVE.
-- LIVE harus dapat diakses secara publik.
-- Tunggu beberapa detik setelah status berubah menjadi terhubung.
-- Putuskan koneksi lalu hubungkan kembali jika jaringan sempat terputus.
+## ⚖️ Penafian (Disclaimer)
 
-### Jumlah penonton masih `—`
+Aplikasi ini menggunakan modul pihak ketiga [`tiktok-live-connector`](https://www.npmjs.com/package/tiktok-live-connector) untuk membaca stream data Webcast publik.
 
-Angka penonton diperbarui ketika TikTok mengirim event statistik `ROOM_USER`. Snapshot pertama dapat membutuhkan beberapa detik setelah koneksi berhasil.
+- Proyek ini **tidak terafiliasi, dikelola, atau didukung secara resmi oleh TikTok atau ByteDance Inc.**
+- Aplikasi ini murni bersifat *read-only* untuk siaran langsung publik dan **tidak pernah mengumpulkan, menyimpan, atau meminta kredensial/password akun pengguna.**
+- Segala perubahan protokol atau kebijakan API dari platform TikTok dapat memengaruhi kestabilan koneksi.
 
-### Overlay tidak bisa diklik
+<br />
 
-Mode klik-tembus sedang aktif. Tekan `Ctrl + Shift + X` untuk mematikannya.
+---
 
-### Windows menampilkan peringatan keamanan
+## 👤 Author & Kontak
 
-Build lokal mungkin belum memiliki sertifikat code-signing publik. Periksa source code dan build sendiri apabila kamu ingin memastikan isi aplikasinya.
+Dibuat & dikembangkan oleh:
 
-## ⚠️ Catatan dan disclaimer
-
-Proyek ini menggunakan [`tiktok-live-connector`](https://www.npmjs.com/package/tiktok-live-connector), sebuah library tidak resmi yang membaca event webcast TikTok LIVE publik.
-
-Proyek ini:
-
-- tidak berafiliasi, disponsori, atau didukung oleh TikTok maupun ByteDance;
-- tidak meminta password TikTok;
-- hanya ditujukan untuk membaca aktivitas LIVE yang dapat diakses publik;
-- dapat berhenti bekerja apabila TikTok mengubah endpoint, format event, atau kebijakan aksesnya.
-
-Gunakan aplikasi secara bertanggung jawab dan patuhi ketentuan platform yang berlaku.
-
-## 🤝 Kontribusi
-
-Kontribusi sangat terbuka. Kamu dapat:
-
-1. Fork repository ini.
-2. Buat branch fitur baru.
-3. Commit perubahanmu.
-4. Buka Pull Request dengan penjelasan yang jelas.
-
-Untuk laporan bug, sertakan versi aplikasi, versi Windows, pesan error, dan langkah untuk mereproduksi masalah.
-
-## 👤 Author
-
-**Aidil Fadilah**
-
-Jika proyek ini membantu, jangan lupa beri ⭐ pada repository.
+**Aidil Fadilah**  
+- 🌐 GitHub: [@aidilfadilah99](https://github.com/aidilfadilah99)
+- 💼 Project Repository: [live-chat-overlay](https://github.com/aidilfadilah99/live-chat-overlay)
 
 ---
 
 <div align="center">
-
-Made with ❤️ for TikTok LIVE creators
-
+  <b>Suka dengan project ini? Jangan lupa tinggalkan ⭐ Star di repositori GitHub!</b>
+  <br /><br />
+  <sub>Copyright © 2026 Aidil Fadilah. Crafted for creators & streamers.</sub>
 </div>
