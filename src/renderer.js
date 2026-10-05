@@ -7,6 +7,9 @@ let liveStartTime = null;
 let tiktokConnected = false;
 let youtubeConnected = false;
 
+let tiktokStats = { viewers: 0, likes: 0 };
+let youtubeStats = { viewers: 0, likes: 0 };
+
 const formatNumber = n => new Intl.NumberFormat('id-ID', {
   notation: n >= 10000 ? 'compact' : 'standard',
   maximumFractionDigits: 1
@@ -35,6 +38,49 @@ function trimFeed() {
   feed.scrollTop = feed.scrollHeight;
 }
 
+function renderAggregatedStats() {
+  const viewersEl = $('#viewers');
+  const likesEl = $('#likes');
+
+  if (tiktokConnected && youtubeConnected) {
+    // Mode Dual: Jumlahkan penonton & likes dari TikTok dan YouTube
+    const totalViewers = (tiktokStats.viewers || 0) + (youtubeStats.viewers || 0);
+    const totalLikes = (tiktokStats.likes || 0) + (youtubeStats.likes || 0);
+
+    viewersEl.textContent = totalViewers > 0 ? formatNumber(totalViewers) : '—';
+    likesEl.textContent = formatNumber(totalLikes);
+
+    viewersEl.parentElement.title = `Total Penonton: ${formatNumber(totalViewers)} (TT: ${formatNumber(tiktokStats.viewers)} | YT: ${formatNumber(youtubeStats.viewers)})`;
+    likesEl.parentElement.title = `Total Likes: ${formatNumber(totalLikes)} (TT: ${formatNumber(tiktokStats.likes)} | YT: ${formatNumber(youtubeStats.likes)})`;
+  } else if (tiktokConnected) {
+    // Mode TikTok Saja
+    viewersEl.textContent = tiktokStats.viewers > 0 ? formatNumber(tiktokStats.viewers) : '—';
+    likesEl.textContent = formatNumber(tiktokStats.likes);
+
+    viewersEl.parentElement.title = `Penonton TikTok: ${formatNumber(tiktokStats.viewers)}`;
+    likesEl.parentElement.title = `Likes TikTok: ${formatNumber(tiktokStats.likes)}`;
+  } else if (youtubeConnected) {
+    // Mode YouTube Saja
+    viewersEl.textContent = youtubeStats.viewers > 0 ? formatNumber(youtubeStats.viewers) : '—';
+    likesEl.textContent = formatNumber(youtubeStats.likes);
+
+    viewersEl.parentElement.title = `Penonton YouTube: ${formatNumber(youtubeStats.viewers)}`;
+    likesEl.parentElement.title = `Likes YouTube: ${formatNumber(youtubeStats.likes)}`;
+
+    // Sembunyikan top viewers & joins TikTok jika hanya YouTube yang aktif
+    $('#top').hidden = true;
+    $('#join').hidden = true;
+  } else {
+    // Keduanya Offline
+    viewersEl.textContent = '—';
+    likesEl.textContent = '0';
+    viewersEl.parentElement.title = 'Penonton aktif saat ini';
+    likesEl.parentElement.title = 'Total like siaran';
+    $('#top').hidden = true;
+    $('#join').hidden = true;
+  }
+}
+
 function updateDurationTimer() {
   const isAnyConnected = tiktokConnected || youtubeConnected;
   $('#disconnect-all').hidden = !isAnyConnected;
@@ -57,8 +103,9 @@ function updateDurationTimer() {
     timer = null;
     liveStartTime = null;
     $('#duration').textContent = '00:00:00';
-    $('#viewers').textContent = '—';
   }
+
+  renderAggregatedStats();
 }
 
 // Platform Tabs Logic
@@ -166,6 +213,9 @@ window.overlay.onStatus(data => {
 
   if (isTiktok) {
     tiktokConnected = data.state === 'connected';
+    if (!tiktokConnected) {
+      tiktokStats = { viewers: 0, likes: 0 };
+    }
     const pill = $('#status-tiktok');
     pill.className = `status-pill ${data.state}`;
     pill.querySelector('.status-txt').textContent = data.state === 'connected' ? 'Live' : (data.state === 'connecting' ? 'Connecting' : 'Offline');
@@ -184,6 +234,9 @@ window.overlay.onStatus(data => {
 
   if (isYoutube) {
     youtubeConnected = data.state === 'connected';
+    if (!youtubeConnected) {
+      youtubeStats = { viewers: 0, likes: 0 };
+    }
     const pill = $('#status-youtube');
     pill.className = `status-pill ${data.state}`;
     pill.querySelector('.status-txt').textContent = data.state === 'connected' ? 'Live' : (data.state === 'connecting' ? 'Connecting' : 'Offline');
@@ -209,7 +262,8 @@ window.overlay.onChat(data => {
   $('#empty')?.remove();
 
   const item = document.createElement('article');
-  item.className = `entry ${data.platform || ''}`;
+  const platform = data.platform || 'tiktok';
+  item.className = `entry ${platform}`;
   if (data.isSuperChat) item.classList.add('superchat');
 
   const body = document.createElement('div');
@@ -218,16 +272,17 @@ window.overlay.onChat(data => {
   const name = document.createElement('div');
   name.className = 'name';
 
+  // Badge TT (hitam, tulisan putih) & YT (merah, tulisan putih)
   const badge = document.createElement('span');
-  badge.className = `platform-tag ${data.platform || 'general'}`;
-  badge.textContent = data.platform === 'youtube' ? 'YT' : 'TT';
+  badge.className = `platform-tag ${platform}`;
+  badge.textContent = platform === 'youtube' ? 'YT' : 'TT';
 
   const b = document.createElement('b');
   b.textContent = data.nickname || data.username;
 
   const handle = document.createElement('span');
   handle.className = 'handle';
-  handle.textContent = data.platform === 'tiktok' ? `@${data.username}` : '';
+  handle.textContent = platform === 'tiktok' ? `@${data.username}` : '';
 
   name.append(badge, b);
   if (handle.textContent) name.append(handle);
@@ -254,6 +309,7 @@ window.overlay.onChat(data => {
 
 // Member join notification (TikTok)
 window.overlay.onMember(data => {
+  if (!tiktokConnected) return;
   const box = $('#join');
   const a = $('#join-avatar');
   $('#join-name').textContent = data.nickname || `@${data.username}`;
@@ -276,19 +332,26 @@ window.overlay.onMember(data => {
 
 // Live Stats Handler (Viewers & Likes)
 window.overlay.onStats(data => {
-  if (Number.isFinite(data.viewers)) $('#viewers').textContent = formatNumber(data.viewers);
-  if (Number.isFinite(data.likes)) $('#likes').textContent = formatNumber(data.likes);
+  if (data.platform === 'tiktok') {
+    if (Number.isFinite(data.viewers)) tiktokStats.viewers = data.viewers;
+    if (Number.isFinite(data.likes)) tiktokStats.likes = data.likes;
 
-  if (data.topViewers?.length) {
-    const list = $('#top-list');
-    list.replaceChildren(...data.topViewers.map(v => {
-      const chip = document.createElement('span');
-      chip.className = 'chip';
-      chip.textContent = v.nickname || `@${v.username}`;
-      return chip;
-    }));
-    $('#top').hidden = false;
+    if (data.topViewers?.length && tiktokConnected) {
+      const list = $('#top-list');
+      list.replaceChildren(...data.topViewers.map(v => {
+        const chip = document.createElement('span');
+        chip.className = 'chip';
+        chip.textContent = v.nickname || `@${v.username}`;
+        return chip;
+      }));
+      $('#top').hidden = false;
+    }
+  } else if (data.platform === 'youtube') {
+    if (Number.isFinite(data.viewers)) youtubeStats.viewers = data.viewers;
+    if (Number.isFinite(data.likes)) youtubeStats.likes = data.likes;
   }
+
+  renderAggregatedStats();
 });
 
 // Activity Stream Event Handler (Gifts, Super Chat, Shares, Follows)

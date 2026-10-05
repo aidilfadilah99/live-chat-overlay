@@ -511,24 +511,30 @@ button, input {
 .platform-tag {
   display: inline-flex;
   align-items: center;
-  padding: 1px 4px;
+  justify-content: center;
+  padding: 1.5px 5px;
   border-radius: 4px;
-  font-size: 8px;
-  font-weight: 700;
+  font-size: 8.5px;
+  font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  line-height: 1.1;
 }
 
+/* TT: warna hitam, tulisan warna putih */
 .platform-tag.tiktok {
-  background: rgba(254, 44, 85, 0.2);
-  color: #ff6685;
-  border: 1px solid rgba(254, 44, 85, 0.4);
+  background: #000000;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
 }
 
+/* YT: warna merah, tulisan warna putih */
 .platform-tag.youtube {
-  background: rgba(255, 0, 51, 0.2);
-  color: #ff5566;
-  border: 1px solid rgba(255, 0, 51, 0.4);
+  background: #ff0000;
+  color: #ffffff;
+  border: 1px solid rgba(255, 68, 68, 0.7);
+  box-shadow: 0 1px 3px rgba(255, 0, 0, 0.35);
 }
 
 .name b {

@@ -1,8 +1,10 @@
 import { app, BrowserWindow, ipcMain, screen, globalShortcut } from 'electron';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import axios from 'axios';
 import { TikTokLiveConnection, WebcastEvent, ControlEvent } from 'tiktok-live-connector';
 import { LiveChat } from 'youtube-chat';
+import { fetchLivePage } from 'youtube-chat/dist/requests.js';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 let win;
@@ -11,6 +13,9 @@ let liveYoutube;
 let intentionalDisconnectTiktok = false;
 let intentionalDisconnectYoutube = false;
 let clickThrough = false;
+
+let youtubeStatsInterval = null;
+let currentYoutubeOptions = null;
 
 const send = (channel, payload) => {
   if (win && !win.isDestroyed()) win.webContents.send(channel, payload);
@@ -98,6 +103,11 @@ async function disconnectTiktok() {
 
 function disconnectYoutube() {
   intentionalDisconnectYoutube = true;
+  if (youtubeStatsInterval) {
+    clearInterval(youtubeStatsInterval);
+    youtubeStatsInterval = null;
+  }
+  currentYoutubeOptions = null;
   const current = liveYoutube;
   liveYoutube = undefined;
   if (current) try { current.stop(); } catch {}
@@ -106,6 +116,50 @@ function disconnectYoutube() {
 
 async function disconnectAll() {
   await Promise.allSettled([disconnectTiktok(), Promise.resolve(disconnectYoutube())]);
+}
+
+async function pollYoutubeStats() {
+  if (!currentYoutubeOptions || !liveYoutube) return;
+  try {
+    const res = await axios.post(`https://www.youtube.com/youtubei/v1/updated_metadata?key=${currentYoutubeOptions.apiKey}`, {
+      context: {
+        client: {
+          clientName: 'WEB',
+          clientVersion: currentYoutubeOptions.clientVersion
+        }
+      },
+      videoId: currentYoutubeOptions.liveId
+    });
+
+    let viewers = 0;
+    const actions = res.data?.actions || [];
+    const viewership = actions.find(a => a.updateViewershipAction)?.updateViewershipAction;
+    const viewText = viewership?.viewCount?.videoViewCountRenderer?.viewCount?.simpleText || '';
+    if (viewText) {
+      viewers = parseInt(viewText.replace(/[^0-9]/g, ''), 10) || 0;
+    }
+
+    let likes = 0;
+    const raw = JSON.stringify(res.data || {});
+    const matchNum = raw.match(/"likeCountIfIndifferentNumber":"(\d+)"/);
+    if (matchNum) {
+      likes = parseInt(matchNum[1], 10) || 0;
+    } else {
+      const matchContent = raw.match(/"expandedLikeCountIfIndifferent":\{"content":"([^"]+)"\}/);
+      if (matchContent) {
+        likes = parseInt(matchContent[1].replace(/[^0-9]/g, ''), 10) || 0;
+      }
+    }
+
+    send('live:stats', {
+      platform: 'youtube',
+      viewers,
+      likes,
+      updatedAt: Date.now()
+    });
+  } catch (err) {
+    // silently ignore network jitter
+  }
 }
 
 function bindTiktokEvents(connection) {
@@ -173,6 +227,8 @@ function bindYoutubeEvents(liveChat) {
       connectedAt: Date.now(),
       liveId
     });
+    // Trigger immediate stats poll
+    pollYoutubeStats();
   });
 
   liveChat.on('chat', item => {
@@ -203,6 +259,10 @@ function bindYoutubeEvents(liveChat) {
       state: 'ended',
       text: `YouTube LIVE berakhir ${reason ? '(' + reason + ')' : ''}`
     });
+    if (youtubeStatsInterval) {
+      clearInterval(youtubeStatsInterval);
+      youtubeStatsInterval = null;
+    }
   });
 
   liveChat.on('error', error => {
@@ -250,19 +310,30 @@ ipcMain.handle('youtube:connect', async (_event, input) => {
   send('live:status', { platform: 'youtube', state: 'connecting', text: `Menghubungkan YouTube ${label}…` });
 
   try {
+    const options = await fetchLivePage(parsed);
+    currentYoutubeOptions = options;
+
     const liveChat = new LiveChat(parsed);
     liveYoutube = liveChat;
     bindYoutubeEvents(liveChat);
     const ok = await liveChat.start();
     if (!ok) {
       if (liveYoutube === liveChat) liveYoutube = undefined;
+      currentYoutubeOptions = null;
       const message = 'Tidak dapat memulai chat YouTube. Pastikan stream sedang LIVE.';
       send('live:status', { platform: 'youtube', state: 'error', text: message });
       return { ok: false, error: message };
     }
+
+    // Start live stats polling loop every 10 seconds
+    if (youtubeStatsInterval) clearInterval(youtubeStatsInterval);
+    youtubeStatsInterval = setInterval(pollYoutubeStats, 10000);
+    pollYoutubeStats();
+
     return { ok: true, liveId: liveChat.liveId };
   } catch (error) {
     if (liveYoutube) liveYoutube = undefined;
+    currentYoutubeOptions = null;
     const message = error?.message || 'Gagal terhubung ke live stream YouTube.';
     send('live:status', { platform: 'youtube', state: 'error', text: message });
     return { ok: false, error: message };
