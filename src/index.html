@@ -4,14 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https: data:; style-src 'self' 'unsafe-inline'; script-src 'self'">
-  <title>Live Chat Overlay</title>
+  <title>Live Chat Overlay v3.0</title>
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="controls.css">
 </head>
 <body>
 <main class="panel">
   <header class="titlebar">
-    <div class="brand"><i></i><b>LIVE</b><span id="duration">00:00:00</span></div>
+    <div class="brand"><i></i><b>LIVE v3.0</b><span id="duration">00:00:00</span></div>
     <div class="creator-watermark">Aidil Fadilah</div>
     <div class="actions">
       <button id="min" title="Minimize">—</button>
@@ -20,54 +20,26 @@
   </header>
 
   <section class="setup">
-    <div class="platform-tabs">
-      <button type="button" class="tab-btn active" data-tab="tiktok"><span>🎵</span> TikTok</button>
-      <button type="button" class="tab-btn" data-tab="youtube"><span>▶</span> YouTube</button>
-      <button type="button" class="tab-btn" data-tab="dual"><span>⚡</span> Keduanya</button>
-    </div>
-
-    <!-- Tab TikTok -->
-    <form id="form-tiktok" class="tab-pane active">
-      <label>Username TikTok LIVE</label>
+    <!-- Row TikTok -->
+    <div class="platform-row">
+      <label>TikTok LIVE</label>
       <div class="input tiktok-input">
         <span>@</span>
-        <input id="tiktok-username" placeholder="username" autocomplete="off">
-        <button id="tiktok-connect" type="submit">Hubungkan</button>
+        <input id="tiktok-username" placeholder="Username TikTok" autocomplete="off">
+        <button id="tiktok-connect" type="button">Hubungkan</button>
       </div>
       <p id="tiktok-error" class="error-msg"></p>
-    </form>
+    </div>
 
-    <!-- Tab YouTube -->
-    <form id="form-youtube" class="tab-pane" hidden>
-      <label>Link Live, Video ID, atau @Channel</label>
+    <!-- Row YouTube -->
+    <div class="platform-row">
+      <label>YouTube LIVE</label>
       <div class="input youtube-input">
         <span class="yt-prefix">▶</span>
-        <input id="youtube-input" placeholder="Link video, @channel, atau live ID" autocomplete="off">
-        <button id="youtube-connect" type="submit">Hubungkan</button>
+        <input id="youtube-input" placeholder="Link video, @channel, atau Live ID" autocomplete="off">
+        <button id="youtube-connect" type="button">Hubungkan</button>
       </div>
       <p id="youtube-error" class="error-msg"></p>
-    </form>
-
-    <!-- Tab Dual -->
-    <div id="pane-dual" class="tab-pane" hidden>
-      <div class="dual-row">
-        <label>TikTok LIVE</label>
-        <div class="input tiktok-input mini">
-          <span>@</span>
-          <input id="dual-tiktok-username" placeholder="username tiktok">
-          <button id="dual-tiktok-connect" type="button">Hubungkan</button>
-        </div>
-        <p id="dual-tiktok-error" class="error-msg"></p>
-      </div>
-      <div class="dual-row">
-        <label>YouTube LIVE</label>
-        <div class="input youtube-input mini">
-          <span class="yt-prefix">▶</span>
-          <input id="dual-youtube-input" placeholder="link live / @channel">
-          <button id="dual-youtube-connect" type="button">Hubungkan</button>
-        </div>
-        <p id="dual-youtube-error" class="error-msg"></p>
-      </div>
     </div>
   </section>
 
@@ -99,7 +71,7 @@
 
   <section id="settings" class="settings" hidden>
     <div class="settings-head">
-      <b>Pengaturan Overlay</b>
+      <b>Pengaturan Overlay v3.0</b>
       <button id="settings-close" title="Tutup pengaturan">×</button>
     </div>
     <label>Ukuran teks <input id="font" type="range" min="12" max="26" value="16"></label>

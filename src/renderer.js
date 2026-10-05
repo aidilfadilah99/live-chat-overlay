@@ -108,97 +108,64 @@ function updateDurationTimer() {
   renderAggregatedStats();
 }
 
-// Platform Tabs Logic
-$$('.tab-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    $$('.tab-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    const tabName = btn.dataset.tab;
-
-    $('#form-tiktok').hidden = tabName !== 'tiktok';
-    $('#form-youtube').hidden = tabName !== 'youtube';
-    $('#pane-dual').hidden = tabName !== 'dual';
-  });
-});
-
-// Sync Inputs between single & dual tabs
-$('#tiktok-username').addEventListener('input', e => {
-  $('#dual-tiktok-username').value = e.target.value;
-});
-$('#dual-tiktok-username').addEventListener('input', e => {
-  $('#tiktok-username').value = e.target.value;
-});
-$('#youtube-input').addEventListener('input', e => {
-  $('#dual-youtube-input').value = e.target.value;
-});
-$('#dual-youtube-input').addEventListener('input', e => {
-  $('#youtube-input').value = e.target.value;
-});
-
 // TikTok Connect / Disconnect Handler
 async function handleTiktokAction() {
   $('#tiktok-error').textContent = '';
-  $('#dual-tiktok-error').textContent = '';
 
   if (tiktokConnected) {
     await window.overlay.disconnectTiktok();
     return;
   }
 
-  const username = ($('#tiktok-username').value || $('#dual-tiktok-username').value || '').trim();
+  const username = ($('#tiktok-username').value || '').trim();
   if (!username) {
-    const msg = 'Masukkan username TikTok.';
-    $('#tiktok-error').textContent = msg;
-    $('#dual-tiktok-error').textContent = msg;
+    $('#tiktok-error').textContent = 'Masukkan username TikTok.';
     return;
   }
 
   const result = await window.overlay.connectTiktok(username);
   if (!result.ok) {
     const isOffline = /offline|not live|isn't live/i.test(result.error);
-    const msg = isOffline ? 'Akun ini sedang tidak LIVE atau LIVE tidak publik.' : result.error;
-    $('#tiktok-error').textContent = msg;
-    $('#dual-tiktok-error').textContent = msg;
+    $('#tiktok-error').textContent = isOffline ? 'Akun ini sedang tidak LIVE atau LIVE tidak publik.' : result.error;
   }
 }
 
-$('#form-tiktok').addEventListener('submit', e => {
-  e.preventDefault();
-  handleTiktokAction();
+$('#tiktok-connect').addEventListener('click', handleTiktokAction);
+$('#tiktok-username').addEventListener('keydown', e => {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    handleTiktokAction();
+  }
 });
-$('#dual-tiktok-connect').addEventListener('click', handleTiktokAction);
 
 // YouTube Connect / Disconnect Handler
 async function handleYoutubeAction() {
   $('#youtube-error').textContent = '';
-  $('#dual-youtube-error').textContent = '';
 
   if (youtubeConnected) {
     await window.overlay.disconnectYoutube();
     return;
   }
 
-  const input = ($('#youtube-input').value || $('#dual-youtube-input').value || '').trim();
+  const input = ($('#youtube-input').value || '').trim();
   if (!input) {
-    const msg = 'Masukkan link video, ID live, atau handle YouTube.';
-    $('#youtube-error').textContent = msg;
-    $('#dual-youtube-error').textContent = msg;
+    $('#youtube-error').textContent = 'Masukkan link video, ID live, atau handle YouTube.';
     return;
   }
 
   const result = await window.overlay.connectYoutube(input);
   if (!result.ok) {
-    const msg = result.error || 'Gagal terhubung ke live stream YouTube.';
-    $('#youtube-error').textContent = msg;
-    $('#dual-youtube-error').textContent = msg;
+    $('#youtube-error').textContent = result.error || 'Gagal terhubung ke live stream YouTube.';
   }
 }
 
-$('#form-youtube').addEventListener('submit', e => {
-  e.preventDefault();
-  handleYoutubeAction();
+$('#youtube-connect').addEventListener('click', handleYoutubeAction);
+$('#youtube-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    handleYoutubeAction();
+  }
 });
-$('#dual-youtube-connect').addEventListener('click', handleYoutubeAction);
 
 // Disconnect All
 $('#disconnect-all').addEventListener('click', async () => {
@@ -226,10 +193,6 @@ window.overlay.onStatus(data => {
     $('#tiktok-connect').textContent = btnText;
     $('#tiktok-connect').disabled = isConnecting;
     $('#tiktok-connect').classList.toggle('danger', tiktokConnected);
-
-    $('#dual-tiktok-connect').textContent = btnText;
-    $('#dual-tiktok-connect').disabled = isConnecting;
-    $('#dual-tiktok-connect').classList.toggle('danger', tiktokConnected);
   }
 
   if (isYoutube) {
@@ -247,10 +210,6 @@ window.overlay.onStatus(data => {
     $('#youtube-connect').textContent = btnText;
     $('#youtube-connect').disabled = isConnecting;
     $('#youtube-connect').classList.toggle('danger', youtubeConnected);
-
-    $('#dual-youtube-connect').textContent = btnText;
-    $('#dual-youtube-connect').disabled = isConnecting;
-    $('#dual-youtube-connect').classList.toggle('danger', youtubeConnected);
   }
 
   updateDurationTimer();

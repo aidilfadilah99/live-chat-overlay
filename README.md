@@ -1,8 +1,9 @@
 <div align="center">
 
-# ⚡ LIVE CHAT OVERLAY
+# ⚡ LIVE CHAT OVERLAY v3.0
 ### *Next-Gen Floating Multi-Stream Companion (TikTok & YouTube) for Streamers & Gamers*
 
+[![Version](https://img.shields.io/badge/version-3.0-fe2c55?style=for-the-badge)](https://github.com/aidilfadilah99/live-chat-overlay)
 [![Author](https://img.shields.io/badge/Author-Aidil%20Fadilah-00B4D8?style=for-the-badge&logo=github&logoColor=white)](https://github.com/aidilfadilah99)
 [![GitHub stars](https://img.shields.io/github/stars/aidilfadilah99/live-chat-overlay?style=for-the-badge&color=ffb703)](https://github.com/aidilfadilah99/live-chat-overlay/stargazers)
 [![Platform](https://img.shields.io/badge/Platform-Windows%2010%20%7C%2011-0078D4?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/aidilfadilah99/live-chat-overlay)
@@ -11,13 +12,13 @@
 <p align="center">
   <b>Baca chat, pantau gift & Super Chat, dan sapa penonton TikTok LIVE serta YouTube LIVE langsung di atas layar game tanpa monitor kedua!</b>
   <br />
-  Multi-Platform • Ringan • Transparan • Anti-Ribet • Tanpa Login Akun
+  Unified Menu • Multi-Platform • Ringan • Transparan • Anti-Ribet • Tanpa Login Akun
 </p>
 
 ---
 
 [Fitur Unggulan](#-fitur-unggulan) • 
-[Panduan Multi-Stream](#-panduan-multi-stream) • 
+[Panduan Penggunaan](#-panduan-penggunaan) • 
 [Mode Gamer (Click-Through)](#-mode-gamer--click-through) • 
 [Instalasi Developer](#-instalasi--pengembangan) • 
 [Author](#-author--kontak)
@@ -32,8 +33,10 @@
 
 Sebagai streamer atau content creator dengan setup monitor terbatas yang sering melakukan **multi-stream (restream) ke TikTok dan YouTube sekaligus**, berganti jendela (Alt+Tab) untuk membaca chat di dua platform berbeda sangat memecah fokus gameplay atau siaran.
 
-**Live Chat Overlay** hadir sebagai solusi all-in-one:
-- ⚡ **Dual & Multi-Stream**: Hubungkan TikTok saja, YouTube saja, atau **keduanya sekaligus** dalam satu feed obrolan terpadu dengan penanda platform (*TT* / *YT*).
+**Live Chat Overlay v3.0** hadir sebagai solusi all-in-one:
+- ⚡ **Satu Menu Terpadu (All-in-One)**: Tidak perlu repot gonta-ganti tab. TikTok LIVE dan YouTube LIVE tersedia berdampingan dalam satu panel. Hubungkan salah satu atau keduanya sekaligus dengan fleksibel!
+- 🏷️ **Pembeda Platform Jelas**: Chat TikTok ditandai badge hitam **`TT`** dan chat YouTube ditandai badge merah **`YT`** (dengan teks putih kontras).
+- 📊 **Agregasi Statistik Otomatis**: Menampilkan penonton & like dari platform yang aktif, dan otomatis menjumlahkan penonton & likes jika kedua platform terhubung bersamaan.
 - 🚀 **Zero Login**: Tidak perlu login akun, password, atau API key. Cukup masukkan username TikTok dan/atau link/handle YouTube publik.
 - 🎮 **Gamer Friendly**: Dilengkapi fitur *Click-Through (Tembus Klik)* sehingga cursor mouse tidak akan terhalang saat bermain game.
 - 🪶 **Hemat Resource**: Menggunakan filter memori pintar yang membatasi histori chat agar konsumsi RAM dan CPU tetap minimal sepanjang sesi live stream.
@@ -46,10 +49,10 @@ Sebagai streamer atau content creator dengan setup monitor terbatas yang sering 
 
 | Kategori | Fitur & Deskripsi |
 |---|---|
-| 🔀 **Multi-Platform Support** | Fleksibel memilih: Hubungkan **TikTok saja**, **YouTube saja**, atau **Keduanya secara bersamaan**. |
-| 💬 **Unified Live Chat** | Komentar dari TikTok dan YouTube digabung rapi dalam satu feed dengan badge penanda platform. |
-| 💰 **Gifts & Super Chat** | Notifikasi gift TikTok (beserta jumlah combo) dan Super Chat YouTube (lengkap dengan nominal donasi). |
-| 📊 **Real-time Analytics** | Ticker statistik live: Penonton aktif TikTok, total likes, dan timer durasi siaran gabungan. |
+| 🔀 **Satu Menu Praktis** | Kelola koneksi **TikTok LIVE** dan **YouTube LIVE** langsung dalam 1 menu tanpa perlu berpindah tab. |
+| 💬 **Unified Live Chat** | Komentar dari TikTok dan YouTube digabung rapi dalam satu feed dengan badge penanda platform (`TT` hitam / `YT` merah). |
+| 💰 **Gifts & Super Chat** | Notifikasi gift TikTok (beserta combo) dan Super Chat YouTube (lengkap dengan nominal donasi). |
+| 📊 **Real-time Analytics** | Ticker statistik live cerdas: Menampilkan penonton & like per platform, atau akumulasi gabungan saat mode dual aktif. |
 | 👑 **Top Viewers & Joins** | Menampilkan 3 penonton teratas TikTok serta pop-up halus saat penonton baru bergabung. |
 | 🎨 **UI Kustomisasi Bebas** | Atur ukuran teks (font size), transparansi latar (opacity), dan pilihan instan ukuran jendela (Kecil, Sedang, Besar). |
 | 📌 **Always-On-Top Layer** | Jendela mengambang di atas semua aplikasi aktif, game *borderless*, maupun software OBS Studio. |
@@ -58,13 +61,13 @@ Sebagai streamer atau content creator dengan setup monitor terbatas yang sering 
 
 ---
 
-## 🚀 Panduan Multi-Stream
+## 🚀 Panduan Penggunaan
 
-1. Pilih tab platform yang diinginkan di bagian atas overlay:
-   - **🎵 TikTok**: Masukkan username (contoh: `@username` atau link live).
-   - **▶️ YouTube**: Masukkan link video (`youtube.com/watch?v=...`), handle channel (`@channel`), atau ID siaran.
-   - **⚡ Keduanya**: Masukkan akun TikTok dan YouTube sekaligus untuk memantau dua platform dalam satu layar.
-2. Klik tombol **Hubungkan** pada platform yang dipilih.
+1. Buka aplikasi **Live Chat Overlay v3.0**.
+2. Di bagian atas panel, tersedia input untuk kedua platform:
+   - **TikTok LIVE**: Masukkan username (contoh: `@username`) lalu klik **Hubungkan**.
+   - **YouTube LIVE**: Masukkan link video (`youtube.com/watch?v=...`), handle channel (`@channel`), atau ID siaran lalu klik **Hubungkan**.
+   *(Anda bebas menghubungkan hanya TikTok, hanya YouTube, atau keduanya sekaligus!)*
 3. Atur posisi overlay di sudut layar, aktifkan transparansi dan mode klik-tembus jika sedang bermain game.
 4. Klik **Putuskan Semua** di footer kapan pun Anda selesai siaran.
 
@@ -119,7 +122,10 @@ Untuk membuat file executable mandiri tanpa perlu terminal:
 ```bash
 npm run pack
 ```
-File biner portabel siap pakai akan otomatis terbuat di dalam direktori `dist/`.
+Hasil build biner portabel:
+```text
+dist/Live Chat Overlay 3.0.exe
+```
 
 <br />
 
@@ -132,12 +138,12 @@ live-chat-overlay/
 ├── src/
 │   ├── main.js         # Process utama Electron, window manager, koneksi TikTok & YouTube
 │   ├── preload.cjs     # Context bridge aman untuk komunikasi IPC (renderer <-> node)
-│   ├── renderer.js     # Logika UI, tab switching, chat feed formatter, & event listener
-│   ├── index.html      # Struktur visual aplikasi overlay (tabs TikTok & YouTube)
-│   ├── styles.css      # Style tema gelap modern, glassmorphism, & badge multi-platform
+│   ├── renderer.js     # Logika UI terpadu, chat feed formatter, agregasi statistik, & event listener
+│   ├── index.html      # Struktur visual aplikasi overlay (menu terpadu TikTok & YouTube)
+│   ├── styles.css      # Style tema gelap modern, glassmorphism, & badge platform TT/YT
 │   └── controls.css    # Style slider kustomisasi, toggle passthrough, & watermark
 ├── Jalankan.cmd        # Script launcher cepat untuk Windows
-├── package.json        # Manifest proyek & konfigurasi electron-builder
+├── package.json        # Manifest proyek v3.0 & konfigurasi electron-builder
 └── README.md           # Dokumentasi resmi proyek
 ```
 
